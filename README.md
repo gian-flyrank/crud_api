@@ -21,4 +21,5 @@ Interactive API documentation is available at <http://localhost:8000/docs>.
 | GET | `/` | API information |
 | GET | `/health` | Server health check |
 | GET | `/tasks` | List all tasks |
+| POST | `/tasks` | Create a task |
 | GET | `/tasks/{task_id}` | Get one task |

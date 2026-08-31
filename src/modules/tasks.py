@@ -9,5 +9,12 @@ def get_all_tasks():
     return tasks
 
 
+def create_task(title: str):
+    next_id = max(task["id"] for task in tasks) + 1
+    task = {"id": next_id, "title": title, "done": False}
+    tasks.append(task)
+    return task
+
+
 def find_task(task_id: int):
     return next((task for task in tasks if task["id"] == task_id), None)

@@ -23,3 +23,5 @@ Interactive API documentation is available at <http://localhost:8000/docs>.
 | GET | `/tasks` | List all tasks |
 | POST | `/tasks` | Create a task |
 | GET | `/tasks/{task_id}` | Get one task |
+| PUT | `/tasks/{task_id}` | Update a task's title and/or completion status |
+| DELETE | `/tasks/{task_id}` | Delete a task |

@@ -18,3 +18,12 @@ def create_task(title: str):
 
 def find_task(task_id: int):
     return next((task for task in tasks if task["id"] == task_id), None)
+
+
+def update_task(task: dict, changes: dict):
+    task.update(changes)
+    return task
+
+
+def delete_task(task: dict):
+    tasks.remove(task)

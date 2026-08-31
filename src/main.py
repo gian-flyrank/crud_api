@@ -1,37 +1,31 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
-app = FastAPI(title="Task API")
+from src.modules.health import get_health_status
+from src.modules.root import get_api_info
+from src.modules.tasks import find_task, get_all_tasks
 
-tasks = [
-    {"id": 1, "title": "Learn FastAPI", "done": False},
-    {"id": 2, "title": "Build task endpoints", "done": False},
-    {"id": 3, "title": "Test the API", "done": False},
-]
+app = FastAPI(title="Task API")
 
 
 @app.get("/")
 def read_root():
-    return {
-        "name": "Task API",
-        "version": "1.0",
-        "endpoints": ["/tasks"],
-    }
+    return get_api_info()
 
 
 @app.get("/health")
 def health_check():
-    return {"status": "ok"}
+    return get_health_status()
 
 
 @app.get("/tasks")
 def list_tasks():
-    return tasks
+    return get_all_tasks()
 
 
 @app.get("/tasks/{task_id}")
 def get_task(task_id: int):
-    task = next((task for task in tasks if task["id"] == task_id), None)
+    task = find_task(task_id)
 
     if task is None:
         return JSONResponse(

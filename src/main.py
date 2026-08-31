@@ -11,25 +11,45 @@ from src.modules.tasks import (
     update_task,
 )
 
-app = FastAPI(title="Task API")
+openapi_tags = [
+    {
+        "name": "General",
+        "description": "Basic information about the Task API.",
+    },
+    {
+        "name": "Health",
+        "description": "Endpoints for checking whether the API is running.",
+    },
+    {
+        "name": "Tasks",
+        "description": "Create, read, update, and delete to-do tasks.",
+    },
+]
+
+app = FastAPI(
+    title="Task API",
+    description="A simple in-memory CRUD API for managing to-do tasks.",
+    version="1.0.0",
+    openapi_tags=openapi_tags,
+)
 
 
-@app.get("/")
+@app.get("/", tags=["General"], summary="Get API information")
 def read_root():
     return get_api_info()
 
 
-@app.get("/health")
+@app.get("/health", tags=["Health"], summary="Check API health")
 def health_check():
     return get_health_status()
 
 
-@app.get("/tasks")
+@app.get("/tasks", tags=["Tasks"], summary="List all tasks")
 def list_tasks():
     return get_all_tasks()
 
 
-@app.post("/tasks", status_code=201)
+@app.post("/tasks", tags=["Tasks"], status_code=201, summary="Create a task")
 def add_task(payload: dict | None = Body(default=None)):
     title = payload.get("title") if payload else None
 
@@ -42,7 +62,7 @@ def add_task(payload: dict | None = Body(default=None)):
     return create_task(title.strip())
 
 
-@app.get("/tasks/{task_id}")
+@app.get("/tasks/{task_id}", tags=["Tasks"], summary="Get one task")
 def get_task(task_id: int):
     task = find_task(task_id)
 
@@ -55,7 +75,7 @@ def get_task(task_id: int):
     return task
 
 
-@app.put("/tasks/{task_id}")
+@app.put("/tasks/{task_id}", tags=["Tasks"], summary="Update a task")
 def edit_task(task_id: int, payload: dict | None = Body(default=None)):
     task = find_task(task_id)
 
@@ -94,7 +114,12 @@ def edit_task(task_id: int, payload: dict | None = Body(default=None)):
     return update_task(task, changes)
 
 
-@app.delete("/tasks/{task_id}", status_code=204)
+@app.delete(
+    "/tasks/{task_id}",
+    tags=["Tasks"],
+    status_code=204,
+    summary="Delete a task",
+)
 def remove_task(task_id: int):
     task = find_task(task_id)
 

@@ -9,6 +9,7 @@ source .venv/bin/activate
 uvicorn src.main:app --reload
 ```
 
-Open <http://localhost:8000/> to see the Hello World response.
+Open <http://localhost:8000/> to see API information, or visit
+<http://localhost:8000/health> to check that the server is running.
 
 Interactive API documentation is available at <http://localhost:8000/docs>.
